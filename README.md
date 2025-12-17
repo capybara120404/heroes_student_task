@@ -16,7 +16,7 @@ All algorithms are connected to the main module of the game through the library 
 ## Project structure
 - **Heroes** is the main module of the game (interface, visualization, combat).
 - **heroes_task** is the student's assignment module. Here are the implementations of the interfaces.
-- **heroes_task_lib** is a library with interfaces and base classes (`Unit`, `Army', `Program`, `Edge`, etc.).
+- **heroes_task_lib** is a library with interfaces and base classes (`Unit`, `Army`, `Edge`).
 
 ---
 
