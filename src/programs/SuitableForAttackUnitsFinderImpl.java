@@ -2,39 +2,32 @@ package programs;
 
 import com.battle.heroes.army.Unit;
 import com.battle.heroes.army.programs.SuitableForAttackUnitsFinder;
-
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class SuitableForAttackUnitsFinderImpl implements SuitableForAttackUnitsFinder {
     @Override
     public List<Unit> getSuitableUnits(List<List<Unit>> unitsByRow, boolean isLeftArmyTarget) {
-        if (unitsByRow == null) {
-            return List.of();
-        }
-
-        List<Unit> suitableUnits = new ArrayList<>();
-
+        List<Unit> result = new ArrayList<>();
         for (List<Unit> row : unitsByRow) {
-            List<Unit> aliveUnits = row.stream()
-                    .filter(Unit::isAlive)
-                    .toList();
-
-            for (Unit unit : aliveUnits) {
-                if (!isCovered(unit, aliveUnits, isLeftArmyTarget)) {
-                    suitableUnits.add(unit);
+            if (row == null) {
+                continue;
+            }
+            for (int i = 0; i < row.size(); i++) {
+                Unit u = row.get(i);
+                if (u != null && u.isAlive()) {
+                    boolean uncovered;
+                    if (isLeftArmyTarget) {
+                        uncovered = i == 0 || row.get(i - 1) == null || !row.get(i - 1).isAlive();
+                    } else {
+                        uncovered = i == row.size() - 1 || row.get(i + 1) == null || !row.get(i + 1).isAlive();
+                    }
+                    if (uncovered) {
+                        result.add(u);
+                    }
                 }
             }
         }
 
-        return suitableUnits;
-    }
-
-    private boolean isCovered(Unit unit, List<Unit> aliveUnits, boolean isLeftArmyTarget) {
-        int x = unit.getxCoordinate();
-
-        return isLeftArmyTarget
-                ? aliveUnits.stream().anyMatch(u -> u.getxCoordinate() < x)
-                : aliveUnits.stream().anyMatch(u -> u.getxCoordinate() > x);
+        return result;
     }
 }
