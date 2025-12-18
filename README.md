@@ -50,6 +50,33 @@ All algorithms are connected to the main module of the game through the library 
 
 ---
 
+## Algorithmic Complexity
+
+### GeneratePresetImpl
+- Sorting the list of unit types: **O(T log T)**, where T is the number of types.
+- The main cycle of adding units: in the worst case **O(T·M)**, where M is the maximum number of units in the army.
+- Final complexity: **O(T log T + T·M) = O(T·M)** (since M is much larger than T).
+
+### SimulateBattleImpl
+- A list of live units is generated on each round: **O(N)**, where N is the total number of units.
+- Sort by attack: **O(N log N)**.
+- Go through the list and attack: **O(N)**.
+- Total difficulty of one round: **O(N log N)**.
+- For R rounds: **O(R·N log N)**. The TOR allows the same or better complexity.
+
+### SuitableForAttackUnitsFinderImpl
+- Iterate through all the rows and units in them: **O(R·C)**, where R is the number of rows (fixed = 3), C is the number of units in a row.
+- Neighbor check - O(1).
+- Final difficulty: **O(C)** (linear in the number of units in a row).
+
+### UnitTargetPathFinderImpl
+- The shortest path search algorithm (Dijkstra/BFS) is used.
+- Each cell of the field (WIDTH × HEIGHT) is processed no more than once.
+- WIDTH = 27, HEIGHT = 21 -> total 567 cells.
+- Final difficulty: **O(WIDTH·HEIGHT) = O(567) = O(W·H)**.
+
+---
+
 ## Cloning the repository
 1. Clone the repository using the command:
    ```bash
